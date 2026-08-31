@@ -152,6 +152,40 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Exchange",
+      "item": [
+        {
+          "name": "Convert dkk to USD",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/bank/api/v1/exchange/dkk-usd?amount=800",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bank",
+                "api",
+                "v1",
+                "exchange",
+                "dkk-usd"
+              ],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "800"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
