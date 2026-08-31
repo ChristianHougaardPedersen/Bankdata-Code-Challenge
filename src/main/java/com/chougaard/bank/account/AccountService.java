@@ -2,6 +2,7 @@ package com.chougaard.bank.account;
 
 import com.chougaard.bank.account.dto.*;
 import com.chougaard.bank.common.exception.AccountNotFoundException;
+import com.chougaard.bank.common.exception.InsufficientFundsException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -44,14 +45,28 @@ public class AccountService {
 		return mapToAccountResponse(account);
 	}
 
+	@Transactional(Transactional.TxType.MANDATORY)
+	public void withdraw(Account account, BigDecimal amount) {
+		if (account.getBalance().compareTo(amount) < 0) {
+			throw new InsufficientFundsException(
+					"Amount " + amount + " exceeds balance of account " + account.getAccountNumber() + ". Operation aborted.");
+		}
+		account.setBalance(account.getBalance().subtract(amount));
+	}
+
+	@Transactional(Transactional.TxType.MANDATORY)
+	public void credit(Account account, BigDecimal amount) {
+		account.setBalance(account.getBalance().add(amount));
+	}
+
+	public Account findAccountByAccountNumber(String accountNumber) {
+		return accountRepository.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new AccountNotFoundException("Requested account not found: " + accountNumber));
+	}
+
 	private String generateAccountNumber() {
 		long number = RANDOM.nextLong(1_000_000_000L, 10_000_000_000L);
 		return String.valueOf(number);
-	}
-
-	private Account findAccountByAccountNumber(String accountNumber) {
-		return accountRepository.findByAccountNumber(accountNumber)
-				.orElseThrow(() -> new AccountNotFoundException("Requested account not found: " + accountNumber));
 	}
 
 	private AccountResponse mapToAccountResponse(Account account) {
