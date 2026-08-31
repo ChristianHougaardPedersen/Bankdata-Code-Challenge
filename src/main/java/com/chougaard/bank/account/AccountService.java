@@ -2,10 +2,6 @@ package com.chougaard.bank.account;
 
 import com.chougaard.bank.account.dto.*;
 import com.chougaard.bank.common.exception.AccountNotFoundException;
-import com.chougaard.bank.common.exception.InsufficientFundsException;
-import com.chougaard.bank.common.exception.SameAccountTransferException;
-import com.chougaard.bank.transfer.dto.TransferRequest;
-import com.chougaard.bank.transfer.dto.TransferResponse;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -46,25 +42,6 @@ public class AccountService {
 		Account account = findAccountByAccountNumber(accountNumber);
 		account.setBalance(account.getBalance().add(request.amount()));
 		return mapToAccountResponse(account);
-	}
-
-	@Transactional
-	public TransferResponse transfer(TransferRequest request) {
-		if (request.fromAccountNumber().equals(request.toAccountNumber())) {
-			throw new SameAccountTransferException("TO and FROM accounts identical. Operation aborted.");
-		}
-
-		Account fromAccount = findAccountByAccountNumber(request.fromAccountNumber());
-		Account toAccount = findAccountByAccountNumber(request.toAccountNumber());
-
-		if (fromAccount.getBalance().compareTo(request.amount()) < 0) {
-			throw new InsufficientFundsException("Amount " + request.amount() + " is larger than the account balance. Operation aborted.");
-		}
-
-		fromAccount.setBalance(fromAccount.getBalance().subtract(request.amount()));
-		toAccount.setBalance(toAccount.getBalance().add(request.amount()));
-
-		return new TransferResponse(mapToAccountResponse(fromAccount), mapToAccountResponse(toAccount));
 	}
 
 	private String generateAccountNumber() {
