@@ -26,7 +26,7 @@ public class Transfer extends PanacheEntityBase {
 	@CreationTimestamp
 	private Instant createdAt;
 
-	protected  Transfer() {}
+	protected Transfer() {}
 
 	public Transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
 		this.fromAccountNumber = fromAccountNumber;

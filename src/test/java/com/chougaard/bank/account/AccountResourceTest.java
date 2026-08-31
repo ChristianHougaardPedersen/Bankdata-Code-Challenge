@@ -56,19 +56,19 @@ public class AccountResourceTest {
 				given()
 						.contentType(ContentType.JSON)
 						.body("{\"firstName\":\"Bob\",\"lastName\":\"Builder\"}")
-						.when()
+				.when()
 						.post(BASE_URI)
-						.then()
+				.then()
 						.statusCode(201)
-						.extract().path("accountNumber");
+				.extract().path("accountNumber");
 
 		// Act & assert — negative deposit should reject
 		given()
 				.contentType(ContentType.JSON)
 				.body("{\"amount\":-50.00}")
-				.when()
+		.when()
 				.post(BASE_URI + "/" + accountNumber + "/deposits")
-				.then()
+		.then()
 				.statusCode(400);
 	}
 
