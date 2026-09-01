@@ -59,7 +59,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/bank/api/v1/accounts/{{accountNumber}}",
+              "raw": "http://localhost:8080/bank/api/v1/accounts/{{accountNumber1}}",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -70,7 +70,7 @@
                 "api",
                 "v1",
                 "accounts",
-                "{{accountNumber}}"
+                "{{accountNumber1}}"
               ]
             }
           },
@@ -91,7 +91,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/accounts/{{accountNumber}}/deposits",
+              "raw": "http://localhost:8080/accounts/{{accountNumber1}}/deposits",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -99,7 +99,7 @@
               "port": "8080",
               "path": [
                 "accounts",
-                "{{accountNumber}}",
+                "{{accountNumber1}}",
                 "deposits"
               ]
             }
@@ -118,7 +118,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"fromAccount\" : \"{{accountNumber1}}\",\r\n    \"toAccount\" : \"{{accountNumber1}}\"\r\n}",
+              "raw": "{\r\n    \"fromAccountNumber\" : \"{{accountNumber1}}\",\r\n    \"toAccountNumber\" : \"{{accountNumber2}}\",\r\n    \"amount\" : 1000.00\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -126,7 +126,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/bank/api/v1/accounts/transfers",
+              "raw": "http://localhost:8080/bank/api/v1/transfers",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -136,7 +136,6 @@
                 "bank",
                 "api",
                 "v1",
-                "accounts",
                 "transfers"
               ]
             }
@@ -147,7 +146,22 @@
           "name": "Get transfer",
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/bank/api/v1/transfers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bank",
+                "api",
+                "v1",
+                "transfers",
+                "1"
+              ]
+            }
           },
           "response": []
         }
@@ -267,7 +281,7 @@
     },
     {
       "key": "accountNumber2",
-      "value": ""
+      "value": "1000000002"
     }
   ]
 }
