@@ -10,7 +10,8 @@ lookup via a third-party provider.
 - Hibernate ORM with Panache (repository pattern)
 - H2 in-memory database
 - Hibernate Validator for request validation
-- REST Client for third-party exchange-rate integration
+- REST Client for third-party exchange-rate integration (ExchangeRate-API for
+ current rates, Frankfurter for historical rates)
 - JUnit 5, Mockito, REST-assured for testing
 
 ## Prerequisites
@@ -71,6 +72,14 @@ Returns the persisted transfer record. `404` if not found.
 Returns the current DKK→USD conversion, e.g. `{"DKK":100,"USD":14.61}`. Requires
 `EXCHANGE_API_KEY` to be set.
 
+### Historical exchange rates (bonus)
+Returns DKK→USD rates for 2005–2015 (excluding 2012) plus today. The calls run in
+parallel. Requires no API key (uses Frankfurter data).
+
+### Historical exchange rates — sequential (benchmark)
+Same data, fetched sequentially. Included only to demonstrate the performance
+difference of the parallel implementation above.
+
 </details>
 <details>
 <summary>cURL commands</summary>
@@ -119,4 +128,20 @@ Returns the persisted transfer record. `404` if not found.
 
 Returns the current DKK→USD conversion, e.g. `{"DKK":100,"USD":14.61}`. Requires
 `EXCHANGE_API_KEY` to be set.
+
+### Historical exchange rates (bonus)
+
+    curl http://localhost:8080/bank/api/v1/exchange/dkk-usd/historical
+
+Returns DKK→USD rates for 2005–2015 (excluding 2012) plus today's rate, fetched
+in parallel. Uses the Frankfurter API — no API key required.
+
+### Historical exchange rates — sequential (benchmark)
+
+    curl http://localhost:8080/bank/api/v1/exchange/dkk-usd/historical-sequential
+
+The same lookups run one after another instead of concurrently. Included to
+demonstrate the response-time difference of the parallel version; not intended
+for production use.
+
 </details>
