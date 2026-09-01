@@ -53,6 +53,8 @@ class TransferServiceTest {
 		ArgumentCaptor<Transfer> captor = ArgumentCaptor.forClass(Transfer.class);
 		Mockito.when(accountServiceMock.findAccountByAccountNumber(ACCOUNT1)).thenReturn(testAccount1);
 		Mockito.when(accountServiceMock.findAccountByAccountNumber(ACCOUNT2)).thenReturn(testAccount2);
+		testAccount1.setAccountNumber(ACCOUNT1);
+		testAccount2.setAccountNumber(ACCOUNT2);
 
 		// Act
 		TransferCreatedResponse response = transferService.transfer(request);
@@ -68,8 +70,11 @@ class TransferServiceTest {
 
 	@Test
 	void transfer_sameAccount_throwsExceptionAndPerformsNoComputations() {
+		// Arrange
+		TransferRequest sameRequest = new TransferRequest(ACCOUNT1, ACCOUNT1, new BigDecimal("50.00"));
+
 		// Act
-		assertThrows(SameAccountTransferException.class, () -> transferService.transfer(request));
+		assertThrows(SameAccountTransferException.class, () -> transferService.transfer(sameRequest));
 
 		// Assert
 		Mockito.verify(accountServiceMock, Mockito.never()).withdraw(Mockito.any(), Mockito.any());
