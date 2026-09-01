@@ -184,6 +184,54 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Get historical rates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/bank/api/v1/exchange/dkk-usd/historical",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bank",
+                "api",
+                "v1",
+                "exchange",
+                "dkk-usd",
+                "historical"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get historical rates sequential",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/bank/api/v1/exchange/dkk-usd/historical-sequential",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bank",
+                "api",
+                "v1",
+                "exchange",
+                "dkk-usd",
+                "historical-sequential"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
